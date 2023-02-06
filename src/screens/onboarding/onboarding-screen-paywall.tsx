@@ -9,6 +9,7 @@ import { Image, ScrollView, View } from 'react-native';
 
 import { normalize } from '../../helper/utils';
 import Options from '../../components/options/options';
+import { STORAGE_KEYS, storeData } from '../../helper/storage';
 
 const backgroundImage = require('../../assets/images/pay-plant.png')
 
@@ -51,8 +52,14 @@ const renderFeatures = () => FEATURES.map((feature, index) => (
 
 const OnboardingPaywall = () => {
 
+  
   const navigation = useNavigation<any>()
 
+
+  const handleContinue = () => {
+    storeData(STORAGE_KEYS.IS_ONBOARDING_DONE, 'true')
+    navigation.replace('TabStack')
+  }
 
   return (
     <Screen source={backgroundImage} barStyle='light' >
@@ -74,7 +81,7 @@ const OnboardingPaywall = () => {
 
       </Body>
 
-      <Continue onPress={() => navigation.replace('TabStack')} text='Try free for 3 days' />
+      <Continue onPress={handleContinue} text='Try free for 3 days' />
       
       <BottomContainer>
         <PaymentDetails paywall text={`After the 3-day free trial period you’ll be charged ₺274.99 per year unless you cancel before the trial expires. Yearly Subscription is Auto-Renewable`} />
